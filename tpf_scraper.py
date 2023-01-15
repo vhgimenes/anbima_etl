@@ -1,8 +1,11 @@
 """
-Módulo responsável pelo download e armazenamento das marcações de TPF da ANBIMA.
+Author: Victor Gimenes
+Date: 15/12/2022
 
+Módulo responsável pelo download e armazenamento das marcações de TPF da ANBIMA.
 Inspiração: https://github.com/wilsonfreitas/MorthIO_TitulosPublicos_ANBIMA/blob/master/scraper.py
 """
+
 #%%
 # Importando bibliotecas
 import pandas as pd
@@ -21,15 +24,13 @@ warnings.filterwarnings("ignore")
 from textparser import PortugueseRulesParser
 pp = PortugueseRulesParser() 
 
-# Adicionando o path de libraries locais 
-sys.path.insert(1,r'T:\GESTAO\MACRO\DEV\LIBRARIES')
-from db_tenax import queries_tenax_db as db # Importado módulos 
+# Adicionando o path de libraries locais  
 from bz_holidays import scrape_anbima_holidays as bz
 from mail_man import post_messages as pm 
 
 def get_last_refresh_date():
     """Função criada para retornar a última data com dados da tabela tblAnbimaTPF"""
-    sql = """SELECT TOP(1) [REF_DATE]  FROM [dbo].[tblAnbimaTPF] ORDER BY REF_DATE DESC"""
+    sql = """SELECT TOP(1) [REF_DATE]  FROM [tblAnbimaTPF] ORDER BY REF_DATE DESC"""
     date = pd.to_datetime(db.read_tbl_custom(sql).values[0][0],format="%Y-%m-%d").date()
     return date 
         
