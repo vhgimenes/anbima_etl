@@ -21,7 +21,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Adicionando o path de libraries locais  
-from Database-Manager import queries_db as db
+from database_manager import queries_db as db
 from bz_holidays import scrape_anbima_holidays as bz
 
 def get_last_refresh_date():
