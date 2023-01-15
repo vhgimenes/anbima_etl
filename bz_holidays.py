@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 """
-Created on Wed Sep  8 14:07:25 2021
+Módulo para extração dos feriados bancários diretamente do site da Anbima.
+"""
 
-@author: victor.gimenes
-"""
 import xlrd
 from datetime import date
 from urllib.request import urlretrieve
