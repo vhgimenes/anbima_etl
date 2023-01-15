@@ -20,13 +20,9 @@ import time
 import warnings
 warnings.filterwarnings("ignore")
 
-# Criando o parser para português
-from textparser import PortugueseRulesParser
-pp = PortugueseRulesParser() 
-
 # Adicionando o path de libraries locais  
+from Database-Manager import queries_db as db
 from bz_holidays import scrape_anbima_holidays as bz
-from mail_man import post_messages as pm 
 
 def get_last_refresh_date():
     """Função criada para retornar a última data com dados da tabela tblAnbimaTPF"""
@@ -38,7 +34,7 @@ def extract_anbima_tpf(init_date:pd.datetime,final_date:pd.datetime,holidays:pd.
     # sourcery skip: extract-method, remove-unnecessary-else, swap-if-else-branches
     """
     Função que extrai os aquivos de "timeldeta" dias de marcações da
-    ANBIMA dos títulos públicos do Tesouro Direto. 
+    ANBIMA dos títulos públicos do Tesouro. 
     """
     print('Iniciando rotina de extração dos arquivos TPF Anbima!\n')
     
@@ -124,8 +120,6 @@ def extract_anbima_tpf(init_date:pd.datetime,final_date:pd.datetime,holidays:pd.
         raise e
 
 def main():  # sourcery skip: extract-method
-    # Criando conexão com o canal de avisos do Teams 
-    teams_conn = pm.get_connector_mesa_teams()
     # Inciando a rotina
     try:
         # Data e Hora de referência
@@ -146,17 +140,11 @@ def main():  # sourcery skip: extract-method
             # final_date = dt(2023,1,5).date()
             # Extraido as marcações para a data desejada   
             extract_anbima_tpf(init_date,final_date,holidays)
-            pm.send_teams_message(teams_conn,
-                                  title = "✅ Extração e Upload do arquivo TPF Anbima feitos com sucesso!",
-                                  content = f"""Data: {today.strftime("%d/%m/%Y")}. \n\n Horário: {now.strftime("%H:%M:%S")}. \n\n Diretório: T:\GESTAO\MACRO\DEV\\1.WEB\\5.TPF_ANBIMA\\tpf_scraper.py.""")
+            print("Extração e Upload do arquivo TPF Anbima feitos com sucesso!")
         else:
-            pm.send_teams_message(teams_conn,
-                                  title = "✋ Upload do arquivo TPF Anbima já foi feito hoje!",
-                                  content = f"""Data: {today.strftime("%d/%m/%Y")}. \n\n Horário: {now.strftime("%H:%M:%S")}. \n\n Diretório: T:\GESTAO\MACRO\DEV\\1.WEB\\5.TPF_ANBIMA\\tpf_scraper.py.""")
+            print("Upload do arquivo TPF Anbima já foi feito hoje!")
     except Exception as e:
-        pm.send_teams_message(teams_conn,
-                              title = "❌ Erro na extração e/ou upload do Arquivo TPF Anbima.",
-                              content = f"""Erro: {e}. \n\n\n Data: {today.strftime("%d/%m/%Y")}. \n\n Horário: {now.strftime("%H:%M:%S")}. \n\n Diretório: T:\GESTAO\MACRO\DEV\\1.WEB\\5.TPF_ANBIMA\\tpf_scraper.py.""")
+        print("Erro na extração e/ou upload do Arquivo TPF Anbima.")
 
 if __name__ == '__main__':
     main()
