@@ -73,11 +73,11 @@ def extract_anbima_tpf(init_date:pd.datetime,final_date:pd.datetime,holidays:pd.
                             row[2],
                             f'{row[3][:4]}-{row[3][4:6]}-{row[3][6:]}',
                             f'{row[4][:4]}-{row[4][4:6]}-{row[4][6:]}',
-                            pp.parse(row[5]),
-                            pp.parse(row[6]),
-                            pp.parse(row[7]),
-                            pp.parse(row[8]),
-                            pp.parse(row[9])]
+                            row[5],
+                            row[6],
+                            row[7],
+                            row[8],
+                            row[9]]
                     table_rows.append(rows)
                 table = pd.DataFrame(table_rows)
                 # Ajustando o nome das colunas  
