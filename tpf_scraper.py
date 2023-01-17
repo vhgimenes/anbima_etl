@@ -1,7 +1,6 @@
 """
 Author: Victor Gimenes
 Date: 15/12/2022
-
 Módulo responsável pelo download e armazenamento das marcações de TPF da ANBIMA.
 Inspiração: https://github.com/wilsonfreitas/MorthIO_TitulosPublicos_ANBIMA/blob/master/scraper.py
 """
